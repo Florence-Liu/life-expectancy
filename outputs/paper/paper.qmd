@@ -20,14 +20,21 @@ bibliography: references.bib
 
 We used `R` to do the analysis in this paper [@citeR]. We used packages `tidyverse`[@citeTidyverse], `janitor`[@citeJanitor], and `here`[@citeHere] to clean and load the data as well as create figures, and `knitr`[@citeKnitr] and `modelsummary`[@citeModelsummary] to generate tables. The color style of the figures was created referring to a R colors cheet-sheet [@citeRcolor].
 
-## Data description 
+## Data description {#sec-data_description}
 
-The datasets used in this paper was obtained from World Health Organization (WHO) Global Health Observatory data repository, and is publicly available from WHO website [@citeWHO]. We utilized 3 datasets: life expectancy and Health life expectancy by WHO region[@citeLife], SDG Target 3.5 Substance abuse by WHO region [@citeAlcohol], and SDG Target 3.a Tobacco control by WHO region [@citeTobacco]. The life expectancy dataset contains life expectancy and helthy life expectancy at birth and at age 60 for different sexes and WHO regions in year 2000, 2010, 2015, and 2019. 
-The substance abuse data contains 
+The datasets used in this paper was obtained from World Health Organization (WHO) Global Health Observatory data repository, and is publicly available from WHO website [@citeWHO]. We utilized 3 datasets: life expectancy and Health life expectancy by WHO region [@citeLife], SDG Target 3.5 Substance abuse by WHO region [@citeAlcohol], and SDG Target 3.a Tobacco control by WHO region [@citeTobacco]. The life expectancy dataset contains life expectancy and healthy life expectancy at birth and at age 60 for different sexes and WHO regions in year 2000, 2010, 2015, and 2019. 
+The life expectancy values were estimated based on mortality data from civil registration. The substance abuse dataset contains total alcohol per capita (aged 15+) consumption (total APC) for different sexes and WHO regions in year 2000, 2005, 2010, 2015, and 2019. The tobacco control dataset contains the percentage of the population aged 15+ who currently use tobacco products based on population-based surveys for different sexes and WHO regions in year 2000, 2005, 2010, 2015, 2018, 2019, and 2020.
 
+We merged the three datasets into one by region, sex, and year. Our cleaned data for analysis contains variables:
 
+* region: WHO regions
+* year: Year data collected
+* sex: Sex at birth
+* life_expectancy: The average number of years that a person of age 60 could expect to live
+* alcohol_consumption: Total alcohol per capita (aged 15+) consumption in litre
+* prevalence_of_tobacco: The percentage of the population aged 15+ who currently use any tobacco products.
 
-## Data Visualization
+## Data Visualization {#sec-data_visualization}
 
 ```{r}
 #| echo: false
@@ -46,6 +53,8 @@ data <- read_csv(here("outputs/data/merged_data.csv"),
                  show_col_types = FALSE)
 ```
 
+@fig-tobacco shows how prevalence of tobacco use relates to life expectancy at age 60 for two sexes, male and female. The scatterplot clearly demonstrates an overall decreasing trend that when the prevalence of tobacco use increases, the mean life expectancy at age 60 decreases. For the two sex groups, we could discover that there are clear clusters of the points, indicating the mean prevalence of tobacco may be different in the two groups. The two dashed lines show the linear fitted line for each group and the green line represents the linear fitted line for both group as a whole. It shows that the two variables interact and we should consider an interaction term between sex and prevalence of tobacco in our model.
+
 ```{r}
 #| label: fig-tobacco
 #| fig-cap: The effect of prevalence of tobacco on life expectancy at age 60 for different sex
@@ -58,8 +67,12 @@ data |> ggplot(aes(x=prevalence_of_tobacco, y=life_expectancy, color=sex)) +
   labs(x = "Prevalence of tobacco use in percentage",
        y = "Life expectancy at age 60 in years",
        color = "Sex") +
-  scale_color_manual(values = c("indianred3","steelblue3"))
+  scale_color_manual(values = c("indianred3","steelblue3")) +
+  geom_smooth(method = "lm", se = F, color="darkgreen")+
+  geom_smooth(method = "lm", se = F, linetype = "dashed")
 ```
+@fig-alcohol shows how total alcohol per capita consumption relates to life expectancy at age 60 for male and female separately. The scatterplot demonstrates that when the total alcohol per capita consumption increases, the life expectancy also increases for both groups. But by how much the life expectancy increases is different for male and female. It indicates that we may need interaction terms in our model for sex and alcohol consumption since the difference of sex matters how alcohol consumption affects life expectancy. The two dashed lines showing the linear fitted line for each group and the green line representing the linear fitted line for both group as a whole also agree with adding interaction terms in the model given that the direction of correlation for two sex groups and total is opposite.
+
 ```{r}
 #| label: fig-alcohol
 #| fig-cap: The effect of total alcohol per capita consumption on life expectanct at age 60 for different sex
@@ -68,13 +81,17 @@ data |> ggplot(aes(x=prevalence_of_tobacco, y=life_expectancy, color=sex)) +
 #| warning: false
 data |> ggplot(aes(x=alcohol_consumption, y=life_expectancy, color=sex)) +
   geom_point() +
-  facet_grid(.~sex) +
+  #facet_grid(.~sex) +
   theme_light() +
   labs(x = "Total alcohol per capita consumption in litre",
        y = "Life expectancy at age 60 in years",
        color = "Sex") +
-  scale_color_manual(values = c("indianred3","steelblue3"))
+  scale_color_manual(values = c("indianred3","steelblue3")) +
+  geom_smooth(method = "lm", se = F, linetype = "dashed") +
+  geom_smooth(method = "lm", se = F, color = "darkgreen")
 ```
+@fig-year shows life expectancy at age 60 for different years and different sexes. In general, life expectancy at age 60 increased from 2000 to 2019 for both sexes. The boxplots also shows that in each year, the mean life expectancy at age 60 for female is much higher than that for male along with larger range and variance. Also, the distribution of life expectancy for both sexes are skewed with one whisker longer than the other, indicating more observations centered at higher values. There is no outliers for all the boxplots.
+
 ```{r}
 #| label: fig-year
 #| fig-cap: Life expectancy at age 60 across years for different sex
@@ -106,6 +123,7 @@ kable(table1, col.names = c("Year","Mean<br>life expectancy (year)",
                             "Mean<br>alcohol consumption (litre)"),
       escape = FALSE, "html")
 ```
+@tbl-year and @tbl-region shows summary tables for the mean values of life expectancy at age 60, prevalence of tobacco, and alcohol consumption across years and regions. We could see that the mean life expectancy increased from 2000 to 2019, which is consistent with @fig-year, while the mean prevalence of tobacco decreased across years and the mean alcohol consumption is relatively stable with minor changes. The potential inverse relationship between prevalence of tobacco and life expectancy is consistent with what we found in @fig-tobacco. For different WHO regions, the three values differ a lot. Africa has the lowest mean life expectancy at age 60 while Americas has the highest mean life expectancy at age 60. However, Africa also has the lowest prevalence of tobacco, which contradicts our previous findings. Also, the mean alcohol consumption has a large range with the lowest value at 0.3 for Eastern Mediterranean and highest value at 10.2 for Europe. These findings in region difference could be further investigated since there might be potential cultural and socio-economic reasons behind.
 
 ```{r}
 #| label: tbl-region
@@ -125,10 +143,50 @@ kable(table2, col.names = c("Region","Mean<br>life expectancy (year)",
 ```
 
 
-# Model
+# Model {#sec-model}
+
+Based on the data visualization, there are clear trends between prevalence of tobacco, alcohol consumption, sex, year, region, and life expectancy. So we will fit multiple linear regression models to discover how these factors contribute to life expectancy at age 60. 
+
+To justify our choice of including interaction terms based on observation, we will fit two models, model 1 contains interaction terms and model 2 does not include interaction terms. The full model is shown as 
+
+\begin{align*}
+Y = \beta_{0} + \beta_{1}X_{tobacco} + \beta_{2}D_{male} + \beta_{3}X_{alcohol} +  \beta_{4}D_{2010} + \beta_{5}D_{2015} + \beta_{6}D_{2019} + \\ \beta_{7}D_{Americas} + \beta_{8}D_{EM} + \beta_{9}D_{Europe} + \beta_{10}D_{Global} + \beta_{11}D_{SeA} + \beta_{12}D_{WP} + \\
+\beta_{13}X_{tobacco}D_{male} + \beta_{14}X_{alcohol}D_{male} + \epsilon 
+\end{align*}
+
+where
+
+* $Y$ is the dependent varianle life expectancy at age 60
+* $\beta_{0}$ represents the intercept of the model, which is the expected life expectancy when all other variables are zero
+* $\beta_{1}$ represents the change in expected life expectancy for a one-unit change in the variable prevalence of tobacco $X_{tobacco}$ when other variables are held constant
+* $\beta_{2}$ represents the difference in expected life expectancy between male and female when other variables are held constant
+* $\beta{3}$ represents the change in expected life expectancy for a one-unit change in the variable alcohol consumption $X_{alcohol}$ when other variables are held constant
+* $\beta{4}$, $\beta{5}$, and $\beta{6}$ represent the difference in expected life expectancy between each year and year 2000
+* $\beta{7}$, $\beta{8}$,  $\beta{9}$, $\beta{10}$, $\beta{11}$, and $\beta{12}$ represent the difference in expected life expectancy between each region and Africa
+* $\beta_{13}$ represents the difference in the change of expected life expectancy for a one-unit change in $X_{tobacco}$ for male and female
+* $\beta_{14}$ represents the difference in the change of expected life expectancy for a one-unit change in $X_{alcohol}$ for male and female
+* $X_{tobacco}$ is the variable prevalence of tobacco use
+* $D_{male}$ is a dummy variable with 1 for male and 0 for female
+* $X_{alcohol}$ is the variable total alcohol per capita consumption
+* $D_{2010}$, $D_{2015}$, and $D_{2019}$ are dummy variables with 1 for the specific year and 0 if it is not the specific year
+* $D_{America}$, $D_{EM}$, $D_{Europe}$, $D_{Global}$, $D_{SeA}$, and $D_{WP}$ are dummy variables with 1 for the specific region and 0 if it is not the specific region. $EM$ represents Eastern Mediterranean region, $SeA$ represents South-east Asia region, and $WP$ represents Western Pacific region.
+* $\epsilon$ is the random error 
+
+For the reduced model, we just removed the interaction terms, that is the predictors with coefficient $\beta_{13}$ and $\beta{14}$ in the full model.
+
+The linear model will generate the best estimates for parameters $\beta_{i}$ and $D_{j}$ that minimize the residual sum of squares (RSS). After getting the best fit of the model, we need to implement model validation to make sure the assumptions for the model hold, that is linearity, homoscedasticity of errors, independence of errors, and influential observations. The model validation is done in the @sec-appendix. It seems that assumptions for both models holds.
 
 
-# Result
+
+# Result {#sec-result}
+
+@tbl-model shows a summary for both models with the listed values representing the estimates of parameters and values in brackets representing the standard error for the estimate of the parameter. The two models produced different but close estimates of parameters. It is noticeable that the direction of correlation between alcohol assumption and life expectancy is different in two models, positive correlation in the full model and negative in the reduced model. This is consistent with data visualization in @fig-alcohol that fitted dash lines within two sex groups show an increasing trend but green fitted line for the whole data shows a decreasing trend.
+
+For the full model, according to the p-values for each parameters, the variable `sex` is not significant at significance level $\alpha = 0.05$ since it has a p-value of 0.15, indicating the variable `sex` does not have a significant effect on the expected life expectancy at age 60. However, since the interaction term between age and alcohol consumption is statistically significant with p-value smaller than the significance level $\alpha = 0.05$, we should still include the separate parameter `sex`.
+
+For the reduced model, according to the p-values for each parameters, the variable `sex` is also insignificant with p-value equal 0.3, larger than that in the full model. This may be due to the interaction effect. Also, it is noticeable that the dummy variable for Eastern Mediterranean region is also statistically insignificant with p-value equal to 0.08 at significance level $\alpha=0.05$, however, if we set the significant level at $\alpha=0.1$, then the predictor becomes significant. It all depends on our choice of significance level.
+
+To justify our choice of interaction terms and choose a better model, we will compare AIC, BIC, RMSE, and adjusted $R^2$ values for both models. We found that the rounded AIC for the full model is 45 with 64 for the reduced model, the rounded BIC for the full model is 77 with 92 for the reduced model, the RMSE for the full model is 0.27 with 0.33 for the reduced model, and the adjusted $R^2$ for the full model is 0.98 with 0.97 for the reduced model. Since we want AIC, BIC, and RMSE to be as small as possible while adjusted $R^2$ to be as large as possible, the full model with interaction terms could be a better fit for the data. It has higher predictive performance without loss of general interpretability. Generally, the prevalence of tobacco use has a negative linear relationship with the life expectancy at age 60, the alcohol per capita consumption has a positive linear relationship with the life expectancy at age 60 while sex itself does not have a significant effect on the life expectancy at age 60.
 ```{r}
 #| label: tbl-model
 #| tbl-cap: Summary of two linear regression models
@@ -136,66 +194,40 @@ kable(table2, col.names = c("Region","Mean<br>life expectancy (year)",
 #| message: false
 #| warning: false
 
-model1 <- lm(life_expectancy ~ prevalence_of_tobacco, data = data)
+model1 <- lm(life_expectancy ~ prevalence_of_tobacco * sex + alcohol_consumption * sex + as.factor(year) + region, data=data)
 #summary(model1)
 
 
-model2 <- lm(life_expectancy ~ alcohol_consumption * sex, data=data)
+model2 <- lm(life_expectancy ~ alcohol_consumption + prevalence_of_tobacco + region + as.factor(year) + sex, data=data)
 #summary(model2)
 
-#plot(model)
 
 
-modelsummary(list("Tobacco" = model1, 
-                  "Alcohol*Sex" = model2))
+modelsummary(list("With interaction" = model1,
+                  "Without interaction" = model2))
 
 ```
 
-```{r}
-#| label: fig-model1
-#| fig-cap: Prevalence of tobacco use versus life expectancy at age 60 with fitted regression line
-#| echo: false
-#| message: false
-#| warning: false
-
-data |> ggplot(aes(y=life_expectancy, x=prevalence_of_tobacco)) +
-  geom_point(color="goldenrod") +
-  geom_smooth(method = "lm", se = TRUE, color = "darkgreen") +
-  theme_minimal() +
-  labs(x = "Prevalence of tobacco use in percentage",
-       y = "Life expectancy at age 60 in years") 
-```
-
-```{r}
-#| label: fig-model2
-#| fig-cap: Alcohol consumption per capita versus life expectancy with fitted regression line for different sex group
-#| echo: false
-#| message: false
-#| warning: false
-
-data |> ggplot(aes(y=life_expectancy, x=alcohol_consumption, color=sex)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = TRUE) +
-  theme_minimal() +
-  labs(x = "Total alcohol per capita consumption in litre",
-       y = "Life expectancy at age 60 in years",
-       color = "Sex") +
-  scale_color_manual(values = c("indianred3","steelblue3"))
-```
 
 
-# Discussion
+
+
+# Discussion {#sec-discussion}
+
+
 
 
 \newpage
 # Reference
+<div id="refs"></div>
 
 \newpage
-# Appendix
+# Appendix {#sec-appendix}
 ```{r}
 #| echo: false
 #| warning: false
 #| message: false
+#| layout-ncol: 2
 
 plot(model1)
 plot(model2)
