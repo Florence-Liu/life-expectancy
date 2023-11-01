@@ -1,0 +1,85 @@
+region,year,sex,life_expectancy
+Global,2019,both_sexes,21.1
+Global,2015,both_sexes,20.8
+Global,2010,both_sexes,20.1
+Global,2000,both_sexes,18.8
+Africa,2019,both_sexes,17.9
+Africa,2015,both_sexes,17.4
+Africa,2010,both_sexes,16.8
+Africa,2000,both_sexes,15.5
+Americas,2019,both_sexes,22.7
+Americas,2015,both_sexes,22.5
+Americas,2010,both_sexes,22.1
+Americas,2000,both_sexes,21.1
+South-East Asia,2019,both_sexes,19.1
+South-East Asia,2015,both_sexes,18.8
+South-East Asia,2010,both_sexes,18.2
+South-East Asia,2000,both_sexes,16.6
+Europe,2019,both_sexes,22.5
+Europe,2015,both_sexes,21.9
+Europe,2010,both_sexes,21.3
+Europe,2000,both_sexes,19.6
+Eastern Mediterranean,2019,both_sexes,18.5
+Eastern Mediterranean,2015,both_sexes,18.1
+Eastern Mediterranean,2010,both_sexes,18.0
+Eastern Mediterranean,2000,both_sexes,17.4
+Western Pacific,2019,both_sexes,21.8
+Western Pacific,2015,both_sexes,21.4
+Western Pacific,2010,both_sexes,20.5
+Western Pacific,2000,both_sexes,19.3
+Global,2019,male,19.5
+Global,2015,male,19.1
+Global,2010,male,18.4
+Global,2000,male,17.2
+Africa,2019,male,16.7
+Africa,2015,male,16.2
+Africa,2010,male,15.5
+Africa,2000,male,14.3
+Americas,2019,male,21.2
+Americas,2015,male,21.0
+Americas,2010,male,20.6
+Americas,2000,male,19.4
+South-East Asia,2019,male,18.2
+South-East Asia,2015,male,17.9
+South-East Asia,2010,male,17.1
+South-East Asia,2000,male,15.8
+Europe,2019,male,20.5
+Europe,2015,male,19.9
+Europe,2010,male,19.2
+Europe,2000,male,17.4
+Eastern Mediterranean,2019,male,17.8
+Eastern Mediterranean,2015,male,17.3
+Eastern Mediterranean,2010,male,17.2
+Eastern Mediterranean,2000,male,16.5
+Western Pacific,2019,male,19.8
+Western Pacific,2015,male,19.3
+Western Pacific,2010,male,18.5
+Western Pacific,2000,male,17.5
+Global,2019,female,22.7
+Global,2015,female,22.3
+Global,2010,female,21.7
+Global,2000,female,20.4
+Africa,2019,female,19.0
+Africa,2015,female,18.5
+Africa,2010,female,18.0
+Africa,2000,female,16.8
+Americas,2019,female,24.0
+Americas,2015,female,23.8
+Americas,2010,female,23.5
+Americas,2000,female,22.5
+South-East Asia,2019,female,20.0
+South-East Asia,2015,female,19.7
+South-East Asia,2010,female,19.3
+South-East Asia,2000,female,17.4
+Europe,2019,female,24.3
+Europe,2015,female,23.6
+Europe,2010,female,23.0
+Europe,2000,female,21.5
+Eastern Mediterranean,2019,female,19.3
+Eastern Mediterranean,2015,female,18.9
+Eastern Mediterranean,2010,female,18.8
+Eastern Mediterranean,2000,female,18.3
+Western Pacific,2019,female,23.9
+Western Pacific,2015,female,23.6
+Western Pacific,2010,female,22.6
+Western Pacific,2000,female,21.2

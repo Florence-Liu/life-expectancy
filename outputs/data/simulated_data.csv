@@ -1,0 +1,85 @@
+region,year,sex,life_expectancy,alcohol_consumption,prevalence_of_tobacco
+Global,2019,both_sexes,21.1,5.5,22.7
+Global,2015,both_sexes,20.8,5.9,24.4
+Global,2010,both_sexes,20.1,5.7,26.7
+Global,2000,both_sexes,18.8,5.1,32.7
+Africa,2019,both_sexes,17.9,4.5,10.6
+Africa,2015,both_sexes,17.4,4.7,11.7
+Africa,2010,both_sexes,16.8,4.7,13.4
+Africa,2000,both_sexes,15.5,5.5,17.9
+Americas,2019,both_sexes,22.7,7.5,16.8
+Americas,2015,both_sexes,22.5,7.7,18.6
+Americas,2010,both_sexes,22.1,7.8,21.3
+Americas,2000,both_sexes,21.1,7.8,28
+South-East Asia,2019,both_sexes,19.1,3.8,29.6
+South-East Asia,2015,both_sexes,18.8,3.9,32.9
+South-East Asia,2010,both_sexes,18.2,3.6,37.6
+South-East Asia,2000,both_sexes,16.6,1.8,50.4
+Europe,2019,both_sexes,22.5,9.2,25.7
+Europe,2015,both_sexes,21.9,9.5,27.2
+Europe,2010,both_sexes,21.3,10.2,29.3
+Europe,2000,both_sexes,19.6,11.1,34.6
+Eastern Mediterranean,2019,both_sexes,18.5,0.3,19.2
+Eastern Mediterranean,2015,both_sexes,18.1,0.3,20.2
+Eastern Mediterranean,2010,both_sexes,18,0.4,22.1
+Eastern Mediterranean,2000,both_sexes,17.4,0.2,27.2
+Western Pacific,2019,both_sexes,21.8,6.1,24.9
+Western Pacific,2015,both_sexes,21.4,7.2,25.3
+Western Pacific,2010,both_sexes,20.5,6.1,26.1
+Western Pacific,2000,both_sexes,19.3,4.3,27.9
+Global,2019,male,19.5,8.7,37.3
+Global,2015,male,19.1,9.4,39.5
+Global,2010,male,18.4,9.1,42.3
+Global,2000,male,17.2,8,49.3
+Africa,2019,male,16.7,7.5,18.4
+Africa,2015,male,16.2,7.7,19.9
+Africa,2010,male,15.5,7.9,22.3
+Africa,2000,male,14.3,9.2,28.7
+Americas,2019,male,21.2,11.9,21.9
+Americas,2015,male,21,12.2,24.1
+Americas,2010,male,20.6,12.4,27.4
+Americas,2000,male,19.4,12.3,35.5
+South-East Asia,2019,male,18.2,6.4,47.4
+South-East Asia,2015,male,17.9,6.4,51.1
+South-East Asia,2010,male,17.1,5.9,55.8
+South-East Asia,2000,male,15.8,3,68.2
+Europe,2019,male,20.5,14.9,33.5
+Europe,2015,male,19.9,15.3,35.8
+Europe,2010,male,19.2,16.5,38.9
+Europe,2000,male,17.4,17.9,46.5
+Eastern Mediterranean,2019,male,17.8,0.5,34.1
+Eastern Mediterranean,2015,male,17.3,0.5,35.3
+Eastern Mediterranean,2010,male,17.2,0.7,37.7
+Eastern Mediterranean,2000,male,16.5,0.4,44.1
+Western Pacific,2019,male,19.8,9.6,46.8
+Western Pacific,2015,male,19.3,11.5,47.5
+Western Pacific,2010,male,18.5,9.7,48.4
+Western Pacific,2000,male,17.5,6.8,50.8
+Global,2019,female,22.7,2.2,8.1
+Global,2015,female,22.3,2.4,9.3
+Global,2010,female,21.7,2.3,11.1
+Global,2000,female,20.4,2.1,16.2
+Africa,2019,female,19,1.6,2.9
+Africa,2015,female,18.5,1.7,3.5
+Africa,2010,female,18,1.7,4.4
+Africa,2000,female,16.8,2.1,7.1
+Americas,2019,female,24,3.3,11.7
+Americas,2015,female,23.8,3.3,13.2
+Americas,2010,female,23.5,3.4,15.2
+Americas,2000,female,22.5,3.4,20.6
+South-East Asia,2019,female,20,1.2,11.9
+South-East Asia,2015,female,19.7,1.3,14.7
+South-East Asia,2010,female,19.3,1.2,19.3
+South-East Asia,2000,female,17.4,0.6,32.5
+Europe,2019,female,24.3,4,17.9
+Europe,2015,female,23.6,4.1,18.6
+Europe,2010,female,23,4.5,19.7
+Europe,2000,female,21.5,4.8,22.6
+Eastern Mediterranean,2019,female,19.3,0.1,4.4
+Eastern Mediterranean,2015,female,18.9,0.1,5.2
+Eastern Mediterranean,2010,female,18.8,0.1,6.4
+Eastern Mediterranean,2000,female,18.3,0.1,10.2
+Western Pacific,2019,female,23.9,2.5,2.9
+Western Pacific,2015,female,23.6,3,3.2
+Western Pacific,2010,female,22.6,2.5,3.7
+Western Pacific,2000,female,21.2,1.8,5

@@ -1,0 +1,202 @@
+---
+title: "Life expectancy"
+author: "Yufei Liu"
+thanks: "Code and data are available at: https://github.com/Florence-Liu/life_expectancy"
+date: today
+date-format: long
+abstract: ""
+format: pdf
+number-sections: true
+toc: false
+bibliography: references.bib
+---
+
+# Introduction
+
+
+
+
+# Data {#sec-data}
+
+We used `R` to do the analysis in this paper [@citeR]. We used packages `tidyverse`[@citeTidyverse], `janitor`[@citeJanitor], and `here`[@citeHere] to clean and load the data as well as create figures, and `knitr`[@citeKnitr] and `modelsummary`[@citeModelsummary] to generate tables. The color style of the figures was created referring to a R colors cheet-sheet [@citeRcolor].
+
+## Data description 
+
+The datasets used in this paper was obtained from World Health Organization (WHO) Global Health Observatory data repository, and is publicly available from WHO website [@citeWHO]. We utilized 3 datasets: life expectancy and Health life expectancy by WHO region[@citeLife], SDG Target 3.5 Substance abuse by WHO region [@citeAlcohol], and SDG Target 3.a Tobacco control by WHO region [@citeTobacco]. The life expectancy dataset contains life expectancy and helthy life expectancy at birth and at age 60 for different sexes and WHO regions in year 2000, 2010, 2015, and 2019. 
+The substance abuse data contains 
+
+
+
+## Data Visualization
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+
+#### Workspace setup ####
+library(tidyverse)
+library(knitr)
+library(here)
+library(modelsummary)
+
+#### Read in the cleaned data ####
+data <- read_csv(here("outputs/data/merged_data.csv"), 
+                 show_col_types = FALSE)
+```
+
+```{r}
+#| label: fig-tobacco
+#| fig-cap: The effect of prevalence of tobacco on life expectancy at age 60 for different sex
+#| echo: false
+#| message: false
+#| warning: false
+data |> ggplot(aes(x=prevalence_of_tobacco, y=life_expectancy, color=sex)) +
+  geom_point() +
+  theme_minimal() +
+  labs(x = "Prevalence of tobacco use in percentage",
+       y = "Life expectancy at age 60 in years",
+       color = "Sex") +
+  scale_color_manual(values = c("indianred3","steelblue3"))
+```
+```{r}
+#| label: fig-alcohol
+#| fig-cap: The effect of total alcohol per capita consumption on life expectanct at age 60 for different sex
+#| echo: false
+#| message: false
+#| warning: false
+data |> ggplot(aes(x=alcohol_consumption, y=life_expectancy, color=sex)) +
+  geom_point() +
+  facet_grid(.~sex) +
+  theme_light() +
+  labs(x = "Total alcohol per capita consumption in litre",
+       y = "Life expectancy at age 60 in years",
+       color = "Sex") +
+  scale_color_manual(values = c("indianred3","steelblue3"))
+```
+```{r}
+#| label: fig-year
+#| fig-cap: Life expectancy at age 60 across years for different sex
+#| echo: false
+#| message: false
+#| warning: false
+data |> ggplot(aes(x=as.factor(year), y=life_expectancy, color=sex)) +
+  geom_boxplot() +
+  theme_minimal() +
+  labs(x = "Year",
+       y = "Life expectancy at age 60 in years",
+       color = "Sex") +
+  scale_color_manual(values = c("indianred3","steelblue3"))
+```
+
+```{r}
+#| label: tbl-year
+#| tbl-cap: Summary of average life expectancy, prevalence of tobacco, and alcohol consumption across years
+#| echo: false
+#| message: false
+#| warning: false
+table1 <- data |> group_by(year) |>
+  summarise(mean_life = round(mean(life_expectancy),1), 
+            mean_tobacco = round(mean(prevalence_of_tobacco),1),
+            mean_alcohol = round(mean(alcohol_consumption),1))
+
+kable(table1, col.names = c("Year","Mean<br>life expectancy (year)", 
+                            "Mean<br>prevalence of tobacco (%)",
+                            "Mean<br>alcohol consumption (litre)"),
+      escape = FALSE, "html")
+```
+
+```{r}
+#| label: tbl-region
+#| tbl-cap: Summary of average life expectancy, prevalence of tobacco, and alcohol consumption for different WHO regions
+#| echo: false
+#| message: false
+#| warning: false
+table2 <- data |> group_by(region) |>
+  summarise(mean_life = round(mean(life_expectancy),1), 
+            mean_tobacco = round(mean(prevalence_of_tobacco),1),
+            mean_alcohol = round(mean(alcohol_consumption),1))
+
+kable(table2, col.names = c("Region","Mean<br>life expectancy (year)", 
+                            "Mean<br>prevalence of tobacco (%)",
+                            "Mean<br>alcohol consumption (litre)"), 
+      escape = FALSE, "html")
+```
+
+
+# Model
+
+
+# Result
+```{r}
+#| label: tbl-model
+#| tbl-cap: Summary of two linear regression models
+#| echo: false
+#| message: false
+#| warning: false
+
+model1 <- lm(life_expectancy ~ prevalence_of_tobacco, data = data)
+#summary(model1)
+
+
+model2 <- lm(life_expectancy ~ alcohol_consumption * sex, data=data)
+#summary(model2)
+
+#plot(model)
+
+
+modelsummary(list("Tobacco" = model1, 
+                  "Alcohol*Sex" = model2))
+
+```
+
+```{r}
+#| label: fig-model1
+#| fig-cap: Prevalence of tobacco use versus life expectancy at age 60 with fitted regression line
+#| echo: false
+#| message: false
+#| warning: false
+
+data |> ggplot(aes(y=life_expectancy, x=prevalence_of_tobacco)) +
+  geom_point(color="goldenrod") +
+  geom_smooth(method = "lm", se = TRUE, color = "darkgreen") +
+  theme_minimal() +
+  labs(x = "Prevalence of tobacco use in percentage",
+       y = "Life expectancy at age 60 in years") 
+```
+
+```{r}
+#| label: fig-model2
+#| fig-cap: Alcohol consumption per capita versus life expectancy with fitted regression line for different sex group
+#| echo: false
+#| message: false
+#| warning: false
+
+data |> ggplot(aes(y=life_expectancy, x=alcohol_consumption, color=sex)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = TRUE) +
+  theme_minimal() +
+  labs(x = "Total alcohol per capita consumption in litre",
+       y = "Life expectancy at age 60 in years",
+       color = "Sex") +
+  scale_color_manual(values = c("indianred3","steelblue3"))
+```
+
+
+# Discussion
+
+
+\newpage
+# Reference
+
+\newpage
+# Appendix
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+plot(model1)
+plot(model2)
+```
