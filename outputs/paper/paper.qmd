@@ -4,7 +4,7 @@ author: "Yufei Liu"
 thanks: "Code and data are available at: https://github.com/Florence-Liu/life_expectancy"
 date: today
 date-format: long
-abstract: ""
+abstract: "This paper "
 format: pdf
 number-sections: true
 toc: false
@@ -13,7 +13,17 @@ bibliography: references.bib
 
 # Introduction
 
+ashdjk
+asdhkja
+askdhka
 
+
+ahdjkajks
+
+
+adkajhk
+
+akjdha
 
 
 # Data {#sec-data}
@@ -25,7 +35,7 @@ We used `R` to do the analysis in this paper [@citeR]. We used packages `tidyver
 The datasets used in this paper was obtained from World Health Organization (WHO) Global Health Observatory data repository, and is publicly available from WHO website [@citeWHO]. We utilized 3 datasets: life expectancy and Health life expectancy by WHO region [@citeLife], SDG Target 3.5 Substance abuse by WHO region [@citeAlcohol], and SDG Target 3.a Tobacco control by WHO region [@citeTobacco]. The life expectancy dataset contains life expectancy and healthy life expectancy at birth and at age 60 for different sexes and WHO regions in year 2000, 2010, 2015, and 2019. 
 The life expectancy values were estimated based on mortality data from civil registration. The substance abuse dataset contains total alcohol per capita (aged 15+) consumption (total APC) for different sexes and WHO regions in year 2000, 2005, 2010, 2015, and 2019. The tobacco control dataset contains the percentage of the population aged 15+ who currently use tobacco products based on population-based surveys for different sexes and WHO regions in year 2000, 2005, 2010, 2015, 2018, 2019, and 2020.
 
-We merged the three datasets into one by region, sex, and year. Our cleaned data for analysis contains variables:
+We specifically selected life expectancy at age 60 since it would be more associated with either tobacco or alcohol usage than life expectancy at birth. Then we merged the three datasets into one by region, sex, and year. Our cleaned data for analysis contains variables:
 
 * region: WHO regions
 * year: Year data collected
@@ -160,9 +170,9 @@ where
 * $\beta_{0}$ represents the intercept of the model, which is the expected life expectancy when all other variables are zero
 * $\beta_{1}$ represents the change in expected life expectancy for a one-unit change in the variable prevalence of tobacco $X_{tobacco}$ when other variables are held constant
 * $\beta_{2}$ represents the difference in expected life expectancy between male and female when other variables are held constant
-* $\beta{3}$ represents the change in expected life expectancy for a one-unit change in the variable alcohol consumption $X_{alcohol}$ when other variables are held constant
-* $\beta{4}$, $\beta{5}$, and $\beta{6}$ represent the difference in expected life expectancy between each year and year 2000
-* $\beta{7}$, $\beta{8}$,  $\beta{9}$, $\beta{10}$, $\beta{11}$, and $\beta{12}$ represent the difference in expected life expectancy between each region and Africa
+* $\beta_{3}$ represents the change in expected life expectancy for a one-unit change in the variable alcohol consumption $X_{alcohol}$ when other variables are held constant
+* $\beta_{4}$, $\beta_{5}$, and $\beta_{6}$ represent the difference in expected life expectancy between each year and year 2000
+* $\beta_{7}$, $\beta_{8}$,  $\beta_{9}$, $\beta_{10}$, $\beta_{11}$, and $\beta_{12}$ represent the difference in expected life expectancy between each region and Africa
 * $\beta_{13}$ represents the difference in the change of expected life expectancy for a one-unit change in $X_{tobacco}$ for male and female
 * $\beta_{14}$ represents the difference in the change of expected life expectancy for a one-unit change in $X_{alcohol}$ for male and female
 * $X_{tobacco}$ is the variable prevalence of tobacco use
@@ -214,7 +224,27 @@ modelsummary(list("With interaction" = model1,
 
 # Discussion {#sec-discussion}
 
+## Brief summary {#sec-summary}
 
+In this paper, we have conducted a analysis of life expectancy at age 60 with several important predictors including prevalence of tobacco use, alcohol per capita consumption, sex at birth, year in 2000, 2010, 2015, 2019, and WHO regions. We have found potential linear relationships between each variable and life expectancy through data visualization. To quantitatively understand how these factors affect life expectancy at age 60, we have utilized multiple linear regression models. We have fitted two model, a full model with interaction effect between sex and prevalence of tobacco as well as the interaction effect between sex and alcohol consumption, and a reduced model with five independent variables but no interaction terms. The results show that the full model have a better fit with smaller root mean squared errors (RMSE), AIC, and BIC, and a larger adjusted $R^2$.
+
+
+## Findings {#sec-findings}
+
+According to @tbl-model and @fig-tobacco, when other variables are held constant, the increase of the prevalence of tobacco use will decrease the life expectancy at age 60. This is consistent with the fact that tobacco is a health risk factor for cardiovascular and respiratory diseases and thus people with a habit of use tobacco products not only cigarettes will have a lower life expectancy at age 60[@citeTobaccouse]. Combined with @tbl-year and @tbl-region, we could find that although the prevalence of tobacco in general decreases across years, it has an uneven region distribution and notably for Africa, it has the lowest prevalence of tobacco but relatively low life expectancy. 
+
+Also for the alcohol per capita consumption, the model suggested that the alcohol consumption is associated with increased life expectancy at age 60. Other than tobacco products, the effect of alcohol on health reveals a complex relationship. Modest drinking has been approved to be protective against some diseases, but in most cases, alcohol could be seen as a health risk factor [@citeDrinking]. In our model, we did not specify alcohol consumption level, so it could be further investigated by creating a new dummy variable indicating different drinking levels. 
+
+According to @tbl-year and @tbl-region, the values that are not consistent with our model result indicate that there might be other factors that influence the life expectancy at age 60 for a specific year or region. For different regions, the difference in economic development, medical treatments, and environmental conditions could be potential influencing factors. However, if we introduced these factors into our model, we have to consider the problem of multicollinearity that the independent variables correlates since these socio-economic factors and environmental factors could also contribute to the prevalence of tobacco and alcohol consumption.
+
+
+## Weakness and future work {#sec-weakness}
+
+One weakness of this paper is about data quality. For the life expectancy dataset, the limitation comes from lack of complete and reliable mortality data for some civil registrations. This may cause the estimation of life expectancy biased since additional model estimations were used instead of real data. For the prevalence of tobacco dataset, one limitation is that some countries or regions do not have reliable data and estimation using Bayesian models held many assumption that may not actually satisfy in real cases. Another limitation is the data source. Since the estimation was made by population-based surveys, self-report biases exist that people may tend to hide some smoking habits if they think it is "not good". For alcohol consumption dataset, same problem for missing several data points for some regions or in a specific year. Additionally, the unrecorded consumption calculation and tourists consumption were calculated from model estimations and several assumption were made during the process that may not be actually valid.
+
+Another weakness is about the model. Since we decide to employ linear regression models based on data visualization, we assume linear relationships between variables, which may ignore some non-lineaer relationship.
+
+For further studies, we could increase our sample size and split into training and testing data to better assess the model performance. We could also use cross validation to find a more robust estimate. Also, additional factors could be considered as well as more complex models that could capture potential non-linear relationships
 
 
 \newpage
