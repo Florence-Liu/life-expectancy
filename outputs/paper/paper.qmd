@@ -1,7 +1,7 @@
 ---
 title: "Lifestyle Choice Matters: Exploring Population Health Disparities and the Effect of Tobacco and Alcohol on Life Expectancy"
 author: "Yufei Liu"
-thanks: "Code and data are available at: https://github.com/Florence-Liu/life_expectancy"
+thanks: "Code and data are available at: https://github.com/Florence-Liu/life-expectancy"
 date: today
 date-format: long
 abstract: "Life expectancy is an important measurement of population health and there are many significant influencing factors such as genetic and lifestyle. This paper examines the relationship between the life expectancy, the prevalence of tobacco products, and the alcohol consumption using data from Global Health Observatory data repository from the WHO. Using regional comparisons, we find as prevalence of tobacco increases, the life expectancy at age 60 decreases while as alcohol consumption increases, the life expectancy increases. We also find regional, temporal, and sexual differences in life expectancy at age 60. Further work could consider additional influencing variables and look at more complex models to capture non-linear relationships."
