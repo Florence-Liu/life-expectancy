@@ -1,5 +1,5 @@
 #### Preamble ####
-# Purpose: Downloads the world health data about life expectancy from WHO Global Health Observatory data repository.
+# Purpose: Clean 3 datasets from WHO Global Health Observatory data repository and merge into one cleaned dataset for analysis.
 # Author: Yufei Liu
 # Date: 22 Oct 2023
 # Contact: florence.liu@mail.utoronto.ca
